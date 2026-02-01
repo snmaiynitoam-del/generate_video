@@ -12,17 +12,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Free up disk space
+      - name: Free up disk space (aggressive)
         run: |
-          echo "Available disk space before cleanup:"
+          echo "=== Disk space BEFORE cleanup ==="
           df -h
+
+          # Remove large unnecessary packages
           sudo rm -rf /usr/share/dotnet
           sudo rm -rf /usr/local/lib/android
           sudo rm -rf /opt/ghc
           sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo rm -rf /opt/hostedtoolcache/go
+          sudo rm -rf /opt/hostedtoolcache/node
+          sudo rm -rf /opt/hostedtoolcache/Python
+          sudo rm -rf /usr/local/share/boost
+          sudo rm -rf /usr/share/swift
+          sudo rm -rf /usr/local/julia*
+          sudo rm -rf /usr/share/kotlinc
+          sudo rm -rf /usr/local/aws-*
+          sudo rm -rf /usr/local/n
+
+          # Clean apt cache
           sudo apt-get clean
+          sudo apt-get autoremove -y
+
+          # Remove swap file
+          sudo swapoff -a || true
+          sudo rm -f /swapfile || true
+
+          # Docker cleanup
           sudo docker system prune --all --volumes --force
-          echo "Available disk space after cleanup:"
+
+          # Clear buildkit cache
+          sudo rm -rf /var/lib/docker/buildkit || true
+
+          echo "=== Disk space AFTER cleanup ==="
           df -h
 
       - name: Checkout code
@@ -30,6 +54,9 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+        with:
+          driver-opts: |
+            image=moby/buildkit:latest
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -45,8 +72,10 @@ jobs:
           push: true
           tags: |
             snmaiynitoam/wan22-video-lora:latest
-            snmaiynitoam/wan22-video-lora:v1.0.6-lora
+            snmaiynitoam/wan22-video-lora:v1.0.7-deepthroat
           no-cache: true
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
 
       - name: Image digest
         run: echo "Image pushed successfully to snmaiynitoam/wan22-video-lora!"
