@@ -59,13 +59,12 @@ RUN wget -q https://huggingface.co/lightx2v/Wan2.2-Lightning/resolve/main/Wan2.2
 RUN wget -q https://huggingface.co/lightx2v/Wan2.2-Lightning/resolve/main/Wan2.2-I2V-A14B-4steps-lora-rank64-Seko-V1/low_noise_model.safetensors -O /ComfyUI/models/loras/low_noise_model.safetensors
 
 # ========== CUSTOM NSFW LORAS ==========
-# Blowjob/Handjob I2V LoRA (HIGH noise variant)
-RUN wget -q https://huggingface.co/snailmana99/wan22-video-loras/resolve/main/WAN-2.2-I2V-HandjobBlowjobCombo-HIGH-v1.safetensors \
-    -O /ComfyUI/models/loras/blowjob_high.safetensors
+# PenisLora I2V - HIGH and LOW variants for Wan 2.2 dual-expert
+RUN wget -q https://huggingface.co/snailmana99/wan22-video-loras/resolve/main/penislora_i2v_high.safetensors \
+    -O /ComfyUI/models/loras/penislora_high.safetensors
 
-# Deepthroat T2V LoRA (HIGH noise - note: T2V but may work for I2V)
-RUN wget -q https://huggingface.co/snailmana99/wan22-video-loras/resolve/main/jfj-deepthroat-W22-T2V-HN-v1.safetensors \
-    -O /ComfyUI/models/loras/deepthroat_high.safetensors
+RUN wget -q https://huggingface.co/snailmana99/wan22-video-loras/resolve/main/penislora_i2v_low.safetensors \
+    -O /ComfyUI/models/loras/penislora_low.safetensors
 
 RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/clip_vision/clip_vision_h.safetensors -O /ComfyUI/models/clip_vision/clip_vision_h.safetensors
 RUN wget -q https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/umt5-xxl-enc-bf16.safetensors -O /ComfyUI/models/text_encoders/umt5-xxl-enc-bf16.safetensors
