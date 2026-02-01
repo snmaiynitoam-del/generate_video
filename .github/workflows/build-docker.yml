@@ -72,7 +72,7 @@ jobs:
           push: true
           tags: |
             snmaiynitoam/wan22-video-lora:latest
-            snmaiynitoam/wan22-video-lora:v1.0.7-deepthroat
+            snmaiynitoam/wan22-video-lora:v2.0.0-fp16-quality
           no-cache: true
           build-args: |
             BUILDKIT_INLINE_CACHE=1
